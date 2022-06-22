@@ -1,13 +1,12 @@
+#include <chrono>
+
 #include "entities/camera.h"
 #include "graphics/vertex_array.h"
 #include "graphics/shader.h"
 #include "window/window.h"
 
-#include <GLFW/glfw3.h>
-#include <iostream>
-
 int main() {
-  Window window;
+  Window window(1280, 720, false);
 
   float vertices[] = {
      0.5f,  0.5f, -5.0f,  // top right
@@ -27,9 +26,14 @@ int main() {
   window.PerformResizeCallbacks();
   //window.SetCursorLock(true);
 
+  auto last_time = std::chrono::steady_clock::now();
   while (window.IsOpen()) {
+    auto now = std::chrono::steady_clock::now();
+    float delta_time = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_time).count() * 0.00000001f;
+    last_time = now;
+
     window.PollEvents();
-    camera.FreeMove();
+    camera.FreeMove(delta_time);
 
     window.Clear();
 
