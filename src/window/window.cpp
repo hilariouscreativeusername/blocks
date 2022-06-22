@@ -40,6 +40,14 @@ Window::~Window() {
 
 void Window::PollEvents() {
   glfwPollEvents();
+
+  // Update cursor position and calculate delta
+  double x, y;
+  glfwGetCursorPos(glfw_window_, &x, &y);
+  cursor_delta_x_ = x - cursor_x_;
+  cursor_delta_y_ = y - cursor_y_;
+  cursor_x_ = x;
+  cursor_y_ = y;
 }
 
 void Window::Clear() {
@@ -68,6 +76,22 @@ void Window::SetCursorLock(bool lock) {
 
 void Window::ToggleCursorLock() {
   SetCursorLock(!IsCursorLocked());
+}
+
+float Window::CursorX() const {
+  return (float)cursor_x_;
+}
+
+float Window::CursorY() const {
+  return (float)cursor_y_;
+}
+
+float Window::CursorDeltaX() const {
+  return (float)cursor_delta_x_;
+}
+
+float Window::CursorDeltaY() const {
+  return (float)cursor_delta_y_;
 }
 
 void Window::OnResize(unsigned int width, unsigned int height) {

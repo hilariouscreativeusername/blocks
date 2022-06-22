@@ -24,6 +24,12 @@ public:
   bool IsCursorLocked() const;
   void SetCursorLock(bool lock);
   void ToggleCursorLock();
+  
+public:
+  float CursorX() const;
+  float CursorY() const;
+  float CursorDeltaX() const;
+  float CursorDeltaY() const;
 
 private:
   void OnResize(unsigned int width, unsigned int height);
@@ -34,6 +40,11 @@ public:
   void AddResizeCallback(ResizeFunc resize_func);
 
 private:
+  double cursor_delta_x_;
+  double cursor_delta_y_;
+  double cursor_x_;
+  double cursor_y_;
+
   GLFWwindow* glfw_window_;
   std::vector<ResizeFunc> resize_callbacks_;
 };

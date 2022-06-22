@@ -25,6 +25,7 @@ int main() {
 
   Camera camera(&window, &chunk_shader);
   window.PerformResizeCallbacks();
+  //window.SetCursorLock(true);
 
   while (window.IsOpen()) {
     window.PollEvents();

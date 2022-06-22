@@ -20,13 +20,27 @@ Camera::Camera(Window* window, Shader* chunk_shader) : window_(window), chunk_sh
 
 void Camera::FreeMove() {
   // Calculate rotation
+  // Rotation with mouse
+  static bool lock_pressed_last_frame = false;
+  if (window_->IsKeyDown(GLFW_KEY_E) && !lock_pressed_last_frame) {
+    window_->ToggleCursorLock();
+  }
+  lock_pressed_last_frame = window_->IsKeyDown(GLFW_KEY_E);
+
+  if (window_->IsCursorLocked()) {
+    rotation_.x += window_->CursorDeltaY() * 0.001f;
+    rotation_.y += window_->CursorDeltaX() * 0.001f;
+  }
+
+  // Rotation with arrow keys
   if (window_->IsKeyDown(GLFW_KEY_UP))         { rotation_.x -= 0.05f; }
   if (window_->IsKeyDown(GLFW_KEY_DOWN))       { rotation_.x += 0.05f; }
   if (window_->IsKeyDown(GLFW_KEY_LEFT))       { rotation_.y -= 0.05f; }
   if (window_->IsKeyDown(GLFW_KEY_RIGHT))      { rotation_.y += 0.05f; }
 
-  glm::mat4 view = glm::rotate(glm::mat4(1), rotation_.y, kYAxis);
-  view = glm::rotate(view, rotation_.x, kXAxis);
+
+  glm::mat4 view = glm::rotate(glm::mat4(1), rotation_.x, kXAxis);
+  view = glm::rotate(view, rotation_.y, kYAxis);
 
   // Calculate movement
   glm::vec3 xzmove = glm::vec3(0.0f, 0.0f, 0.0f);
