@@ -5,6 +5,7 @@
 #include <sstream>
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 unsigned int CompileShader(const char* shader_path, GLenum shader_type) {
   // Read whole shader source file into a string
@@ -62,4 +63,9 @@ Shader::~Shader() {
 
 void Shader::Bind() {
   glUseProgram(shader_program_);
+}
+
+void Shader::UploadUniform(const glm::mat4& matrix, const char* uniform_name) {
+  GLint location = glGetUniformLocation(shader_program_, uniform_name);
+  glUniformMatrix4fv(location, 1, false, glm::value_ptr(matrix));
 }
