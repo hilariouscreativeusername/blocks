@@ -21,11 +21,13 @@ Window::Window(unsigned int width, unsigned int height, bool use_vsync) {
 
   glfwSwapInterval(use_vsync ? 1 : 0);
 
+  // On window resize, set viewport size to the whole size of the window
   glfwSetWindowUserPointer(glfw_window_, this);
   glfwSetWindowSizeCallback(glfw_window_, [](GLFWwindow* glfw_window, int w, int h) {
     Window* window = (Window*)glfwGetWindowUserPointer(glfw_window);
     window->OnResize(w, h);
   });
+  // Avoid repeating code - manually call OnResize to set viewport size
   OnResize(width, height);
 }
 
