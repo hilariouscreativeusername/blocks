@@ -1,8 +1,10 @@
-#include <glm/gtc/matrix_transform.hpp>
-
-#include "window/window.h"
+#include "entities/camera.h"
 #include "graphics/vertex_array.h"
 #include "graphics/shader.h"
+#include "window/window.h"
+
+#include <GLFW/glfw3.h>
+#include <iostream>
 
 int main() {
   Window window;
@@ -21,16 +23,13 @@ int main() {
 
   Shader chunk_shader("src/shaders/chunk_shader.vert.glsl", "src/shaders/chunk_shader.frag.glsl");
 
-  auto recalc_projection = [&](float width, float height) {
-    glm::mat4 perspective_projection = glm::perspectiveFov(45.0f, width, height, 0.1f, 1000.0f);
-    chunk_shader.Bind();
-    chunk_shader.UploadUniform(perspective_projection, "u_projection");
-  };
-  window.AddResizeCallback(recalc_projection);
-  window.PerformResizeCallbacks();
+  Camera camera(&window, &chunk_shader);
 
+  window.PerformResizeCallbacks();
   while (window.IsOpen()) {
     window.PollEvents();
+    camera.FreeMove();
+
     window.Clear();
 
     chunk_shader.Bind();
