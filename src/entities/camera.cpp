@@ -2,6 +2,7 @@
 
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 
 constexpr glm::vec3 kXAxis = glm::vec3(1, 0, 0);
 constexpr glm::vec3 kYAxis = glm::vec3(0, 1, 0);
@@ -18,18 +19,27 @@ Camera::Camera(Window* window, Shader* chunk_shader) : window_(window), chunk_sh
 }
 
 void Camera::FreeMove() {
-  if (window_->IsKeyDown(GLFW_KEY_LEFT))       { rotation_.x -= 0.05f; }
-  if (window_->IsKeyDown(GLFW_KEY_RIGHT))      { rotation_.x += 0.05f; }
-  if (window_->IsKeyDown(GLFW_KEY_UP))         { rotation_.y -= 0.05f; }
-  if (window_->IsKeyDown(GLFW_KEY_DOWN))       { rotation_.y += 0.05f; }
+  // Calculate rotation
+  if (window_->IsKeyDown(GLFW_KEY_UP))         { rotation_.x -= 0.05f; }
+  if (window_->IsKeyDown(GLFW_KEY_DOWN))       { rotation_.x += 0.05f; }
+  if (window_->IsKeyDown(GLFW_KEY_LEFT))       { rotation_.y -= 0.05f; }
+  if (window_->IsKeyDown(GLFW_KEY_RIGHT))      { rotation_.y += 0.05f; }
 
-  glm::mat4 view = glm::rotate(glm::mat4(1), rotation_.x, kYAxis);
-  view = glm::rotate(view, rotation_.y, kXAxis);
+  glm::mat4 view = glm::rotate(glm::mat4(1), rotation_.y, kYAxis);
+  view = glm::rotate(view, rotation_.x, kXAxis);
 
-  if (window_->IsKeyDown(GLFW_KEY_W))          { position_.z += 0.05f; }
-  if (window_->IsKeyDown(GLFW_KEY_S))          { position_.z -= 0.05f; }
-  if (window_->IsKeyDown(GLFW_KEY_A))          { position_.x += 0.05f; }
-  if (window_->IsKeyDown(GLFW_KEY_D))          { position_.x -= 0.05f; }
+  // Calculate movement
+  glm::vec3 xzmove = glm::vec3(0.0f, 0.0f, 0.0f);
+
+  if (window_->IsKeyDown(GLFW_KEY_W))          { xzmove.z =  1.0f; }
+  if (window_->IsKeyDown(GLFW_KEY_S))          { xzmove.z = -1.0f; }
+  if (window_->IsKeyDown(GLFW_KEY_A))          { xzmove.x =  1.0f; }
+  if (window_->IsKeyDown(GLFW_KEY_D))          { xzmove.x = -1.0f; }
+  if (xzmove.x != 0.0f || xzmove.z != 0.0f) {
+    xzmove = glm::normalize(glm::rotateY(xzmove, -rotation_.y));
+    position_ += xzmove * 0.05f;
+  }
+
   if (window_->IsKeyDown(GLFW_KEY_SPACE))      { position_.y -= 0.05f; }
   if (window_->IsKeyDown(GLFW_KEY_LEFT_SHIFT)) { position_.y += 0.05f; }
 
