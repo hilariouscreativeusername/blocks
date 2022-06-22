@@ -1,15 +1,21 @@
 #include "window.h"
 
+#include <iostream>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 Window::Window(unsigned int width, unsigned int height, bool use_vsync) {
-  glfwInit();
+  if (!glfwInit()) {
+    std::cerr << "Error: glfw failed to initialise\n";
+  }
 
   glfw_window_ = glfwCreateWindow(width, height, "Test Window", nullptr, nullptr);
 
   glfwMakeContextCurrent(glfw_window_);
-  gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    std::cerr << "Error: glad failed to initialise OpenGL context\n";
+  }
 
   glViewport(0, 0, width, height);
   glClearColor(0.1f, 0.4f, 0.5f, 1.0f);
