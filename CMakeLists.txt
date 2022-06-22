@@ -25,6 +25,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE glfw)
 add_subdirectory(depend/glad)
 target_link_libraries(${PROJECT_NAME} PRIVATE glad)
 
+target_include_directories(${PROJECT_NAME} PRIVATE depend/glm)
+
 # Platform-specific stuff
 if(WIN32)
   set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
