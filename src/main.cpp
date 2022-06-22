@@ -1,7 +1,9 @@
-#include <iostream>
-#include <GLFW/glfw3.h>
+#include "window/window.h"
 
 int main() {
-  std::cout << "Hello\n";
-  std::cin.get();
+  Window window;
+
+  while (true) {
+    continue;
+  }
 }
