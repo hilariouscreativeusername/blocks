@@ -17,10 +17,16 @@ Window::Window(unsigned int width, unsigned int height, bool use_vsync) {
     std::cerr << "Error: glad failed to initialise OpenGL context\n";
   }
 
-  glViewport(0, 0, width, height);
   glClearColor(0.1f, 0.4f, 0.5f, 1.0f);
 
   glfwSwapInterval(use_vsync ? 1 : 0);
+
+  glfwSetWindowUserPointer(glfw_window_, this);
+  glfwSetWindowSizeCallback(glfw_window_, [](GLFWwindow* glfw_window, int w, int h) {
+    Window* window = (Window*)glfwGetWindowUserPointer(glfw_window);
+    window->OnResize(w, h);
+  });
+  OnResize(width, height);
 }
 
 Window::~Window() {
@@ -42,4 +48,8 @@ void Window::SwapBuffers() {
 
 bool Window::IsOpen() const {
   return !glfwWindowShouldClose(glfw_window_);
+}
+
+void Window::OnResize(unsigned int width, unsigned int height) {
+  glViewport(0, 0, width, height);
 }

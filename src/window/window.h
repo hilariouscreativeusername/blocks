@@ -16,5 +16,8 @@ public:
   bool IsOpen() const;
 
 private:
+  void OnResize(unsigned int width, unsigned int height);
+
+private:
   GLFWwindow* glfw_window_;
 };
