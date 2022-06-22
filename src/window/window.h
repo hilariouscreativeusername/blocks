@@ -18,6 +18,8 @@ public:
 public:
   bool IsOpen() const;
 
+  bool IsKeyDown(int key) const;
+
 private:
   void OnResize(unsigned int width, unsigned int height);
 

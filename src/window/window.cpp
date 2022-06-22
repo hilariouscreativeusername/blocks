@@ -54,6 +54,10 @@ bool Window::IsOpen() const {
   return !glfwWindowShouldClose(glfw_window_);
 }
 
+bool Window::IsKeyDown(int key) const {
+  return glfwGetKey(glfw_window_, key) == GLFW_PRESS;
+}
+
 void Window::OnResize(unsigned int width, unsigned int height) {
   glViewport(0, 0, width, height);
   
