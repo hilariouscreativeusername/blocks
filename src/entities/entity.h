@@ -8,7 +8,7 @@ public:
   virtual ~Entity() = default;
 
 protected:
-  glm::vec3 position_;
-  glm::vec3 rotation_;
-  glm::mat4 transform_;
+  glm::vec3 position_ = glm::vec3(0, 0, 0);
+  glm::vec3 rotation_ = glm::vec3(0, 0, 0);
+  glm::mat4 transform_ = glm::mat4(1);
 };
