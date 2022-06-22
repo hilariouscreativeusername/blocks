@@ -5,8 +5,11 @@
 #include "graphics/shader.h"
 #include "window/window.h"
 
+constexpr float kMaxSecondsPerFrame = 1.0f / 120.0f; // Target fps - default 120
+constexpr float kMaxSecondsPerTick = 1.0f / 20.0f;   // Tick rate  - always 20
+
 int main() {
-  Window window(1280, 720, false);
+  Window window;
 
   float vertices[] = {
      0.5f,  0.5f, -5.0f,  // top right
@@ -26,22 +29,33 @@ int main() {
   window.PerformResizeCallbacks();
   //window.SetCursorLock(true);
 
-  auto last_time = std::chrono::steady_clock::now();
+  auto last_tick = std::chrono::steady_clock::now();
+  auto last_frame = std::chrono::steady_clock::now();
   while (window.IsOpen()) {
     auto now = std::chrono::steady_clock::now();
-    float delta_time = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_time).count() * 0.000000001f;
-    last_time = now;
 
-    window.PollEvents();
-    camera.FreeMove(delta_time);
+    float tick_delta = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_tick).count() * 0.000000001f;
+    if (tick_delta > kMaxSecondsPerTick) {
+      last_tick = now;
 
-    window.Clear();
+      // Do game logic tick
+    }
 
-    chunk_shader.Bind();
+    float frame_delta = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_frame).count() * 0.000000001f;
+    if (frame_delta > kMaxSecondsPerFrame) {
+      last_frame = now;
 
-    vertex_array.Bind();
-    vertex_array.Draw();
+      window.PollEvents();
+      camera.FreeMove(frame_delta);
 
-    window.SwapBuffers();
+      window.Clear();
+
+      chunk_shader.Bind();
+
+      vertex_array.Bind();
+      vertex_array.Draw();
+
+      window.SwapBuffers();
+    }
   }
 }
