@@ -24,8 +24,8 @@ int main() {
   Shader chunk_shader("src/shaders/chunk_shader.vert.glsl", "src/shaders/chunk_shader.frag.glsl");
 
   Camera camera(&window, &chunk_shader);
-
   window.PerformResizeCallbacks();
+
   while (window.IsOpen()) {
     window.PollEvents();
     camera.FreeMove();

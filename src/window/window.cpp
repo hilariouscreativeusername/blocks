@@ -58,6 +58,18 @@ bool Window::IsKeyDown(int key) const {
   return glfwGetKey(glfw_window_, key) == GLFW_PRESS;
 }
 
+bool Window::IsCursorLocked() const {
+  return glfwGetInputMode(glfw_window_, GLFW_CURSOR) == GLFW_CURSOR_DISABLED;
+}
+
+void Window::SetCursorLock(bool lock) {
+  glfwSetInputMode(glfw_window_, GLFW_CURSOR, lock ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+}
+
+void Window::ToggleCursorLock() {
+  SetCursorLock(!IsCursorLocked());
+}
+
 void Window::OnResize(unsigned int width, unsigned int height) {
   glViewport(0, 0, width, height);
   

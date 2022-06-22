@@ -20,6 +20,11 @@ public:
 
   bool IsKeyDown(int key) const;
 
+public:
+  bool IsCursorLocked() const;
+  void SetCursorLock(bool lock);
+  void ToggleCursorLock();
+
 private:
   void OnResize(unsigned int width, unsigned int height);
 
