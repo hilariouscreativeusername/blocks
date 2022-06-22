@@ -3,7 +3,7 @@
 int main() {
   Window window;
 
-  while (true) {
-    continue;
+  while (window.IsOpen()) {
+    window.PollEvents();
   }
 }
