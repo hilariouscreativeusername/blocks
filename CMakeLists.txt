@@ -8,8 +8,11 @@ source_group("src" FILES ${SOURCE_FILES})
 set(WINDOW_FILES src/window/window.h src/window/window.cpp)
 source_group("src/window" FILES ${WINDOW_FILES})
 
+set(GRAPHICS_FILES src/graphics/vertex_array.h src/graphics/vertex_array.cpp)
+source_group("src/graphics" FILES ${GRAPHICS_FILES})
+
 # Executable options
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${WINDOW_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${WINDOW_FILES} ${GRAPHICS_FILES})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
 # Dependencies
