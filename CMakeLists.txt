@@ -14,8 +14,11 @@ source_group("src/graphics" FILES ${GRAPHICS_FILES})
 set(SHADER_FILES src/shaders/chunk_shader.vert.glsl src/shaders/chunk_shader.frag.glsl)
 source_group("src/shaders" FILES ${SHADER_FILES})
 
+set(ENTITY_FILES src/entities/entity.h)
+source_group("src/entities" FILES ${ENTITY_FILES})
+
 # Executable options
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${WINDOW_FILES} ${GRAPHICS_FILES} ${SHADER_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${WINDOW_FILES} ${GRAPHICS_FILES} ${SHADER_FILES} ${ENTITY_FILES})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
 # Dependencies
