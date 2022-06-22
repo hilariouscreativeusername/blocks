@@ -1,5 +1,6 @@
 #include "window/window.h"
 #include "graphics/vertex_array.h"
+#include "graphics/shader.h"
 
 int main() {
   Window window;
@@ -16,11 +17,17 @@ int main() {
   };
   VertexArray vertex_array(vertices, sizeof(vertices), indices, sizeof(indices));
 
+  Shader chunk_shader("src/shaders/chunk_shader.vert.glsl", "src/shaders/chunk_shader.frag.glsl");
+
   while (window.IsOpen()) {
     window.PollEvents();
     window.Clear();
+
+    chunk_shader.Bind();
+
     vertex_array.Bind();
     vertex_array.Draw();
+
     window.SwapBuffers();
   }
 }
