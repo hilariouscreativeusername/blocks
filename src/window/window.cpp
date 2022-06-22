@@ -29,8 +29,6 @@ Window::Window(unsigned int width, unsigned int height, bool use_vsync) {
     Window* window = (Window*)glfwGetWindowUserPointer(glfw_window);
     window->OnResize(w, h);
   });
-  // Avoid repeating code - manually call OnResize to set viewport size
-  OnResize(width, height);
 
   CenterWindow(glfw_window_);
 }
@@ -58,4 +56,18 @@ bool Window::IsOpen() const {
 
 void Window::OnResize(unsigned int width, unsigned int height) {
   glViewport(0, 0, width, height);
+  
+  for (auto& func : resize_callbacks_) {
+    func(width, height);
+  }
+}
+
+void Window::PerformResizeCallbacks() {
+  int x, y;
+  glfwGetWindowSize(glfw_window_, &x, &y);
+  OnResize(x, y);
+}
+
+void Window::AddResizeCallback(ResizeFunc resize_func) {
+  resize_callbacks_.push_back(resize_func);
 }

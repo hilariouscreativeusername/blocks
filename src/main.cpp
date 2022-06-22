@@ -21,14 +21,19 @@ int main() {
 
   Shader chunk_shader("src/shaders/chunk_shader.vert.glsl", "src/shaders/chunk_shader.frag.glsl");
 
-  glm::mat4 perspective_projection = glm::perspectiveFov(45.0f, 1280.0f, 720.0f, 0.1f, 1000.0f);
+  auto recalc_projection = [&](float width, float height) {
+    glm::mat4 perspective_projection = glm::perspectiveFov(45.0f, width, height, 0.1f, 1000.0f);
+    chunk_shader.Bind();
+    chunk_shader.UploadUniform(perspective_projection, "u_projection");
+  };
+  window.AddResizeCallback(recalc_projection);
+  window.PerformResizeCallbacks();
 
   while (window.IsOpen()) {
     window.PollEvents();
     window.Clear();
 
     chunk_shader.Bind();
-    chunk_shader.UploadUniform(perspective_projection, "u_projection");
 
     vertex_array.Bind();
     vertex_array.Draw();

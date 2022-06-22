@@ -1,5 +1,8 @@
 #pragma once
 
+#include <functional>
+#include <vector>
+
 struct GLFWwindow;
 
 class Window {
@@ -18,6 +21,12 @@ public:
 private:
   void OnResize(unsigned int width, unsigned int height);
 
+public:
+  void PerformResizeCallbacks();
+  typedef std::function<void(float, float)> ResizeFunc;
+  void AddResizeCallback(ResizeFunc resize_func);
+
 private:
   GLFWwindow* glfw_window_;
+  std::vector<ResizeFunc> resize_callbacks_;
 };
