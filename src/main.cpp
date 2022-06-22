@@ -5,5 +5,7 @@ int main() {
 
   while (window.IsOpen()) {
     window.PollEvents();
+    window.Clear();
+    window.SwapBuffers();
   }
 }

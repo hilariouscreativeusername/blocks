@@ -7,8 +7,12 @@ public:
   Window();
   ~Window();
 
+public:
   void PollEvents();
+  void Clear();
+  void SwapBuffers();
 
+public:
   bool IsOpen() const;
 
 private:
