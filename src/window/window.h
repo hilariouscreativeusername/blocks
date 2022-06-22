@@ -5,6 +5,7 @@ struct GLFWwindow;
 class Window {
 public:
   Window();
+  ~Window();
 
   void PollEvents();
 

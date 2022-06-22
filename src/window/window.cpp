@@ -8,6 +8,11 @@ Window::Window() {
   glfw_window_ = glfwCreateWindow(1280, 720, "Test Window", nullptr, nullptr);
 }
 
+Window::~Window() {
+  glfwDestroyWindow(glfw_window_);
+  glfwTerminate();
+}
+
 void Window::PollEvents() {
   glfwPollEvents();
 }
