@@ -5,7 +5,7 @@ project(Blocks)
 set(SOURCE_FILES src/main.cpp)
 source_group("src" FILES ${SOURCE_FILES})
 
-set(WINDOW_FILES src/window/window.h src/window/window.cpp)
+set(WINDOW_FILES src/window/window.h src/window/window.cpp src/window/window_utils.h src/window/window_utils.cpp)
 source_group("src/window" FILES ${WINDOW_FILES})
 
 set(GRAPHICS_FILES src/graphics/vertex_array.h src/graphics/vertex_array.cpp)

@@ -5,6 +5,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "window_utils.h"
+
 Window::Window(unsigned int width, unsigned int height, bool use_vsync) {
   if (!glfwInit()) {
     std::cerr << "Error: glfw failed to initialise\n";
@@ -29,6 +31,8 @@ Window::Window(unsigned int width, unsigned int height, bool use_vsync) {
   });
   // Avoid repeating code - manually call OnResize to set viewport size
   OnResize(width, height);
+
+  CenterWindow(glfw_window_);
 }
 
 Window::~Window() {
