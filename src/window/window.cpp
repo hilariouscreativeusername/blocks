@@ -3,16 +3,18 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-Window::Window() {
+Window::Window(unsigned int width, unsigned int height, bool use_vsync) {
   glfwInit();
 
-  glfw_window_ = glfwCreateWindow(1280, 720, "Test Window", nullptr, nullptr);
+  glfw_window_ = glfwCreateWindow(width, height, "Test Window", nullptr, nullptr);
 
   glfwMakeContextCurrent(glfw_window_);
   gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 
-  glViewport(0, 0, 1280, 720);
+  glViewport(0, 0, width, height);
   glClearColor(0.1f, 0.4f, 0.5f, 1.0f);
+
+  glfwSwapInterval(use_vsync ? 1 : 0);
 }
 
 Window::~Window() {
