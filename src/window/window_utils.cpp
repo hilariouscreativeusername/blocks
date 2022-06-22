@@ -1,7 +1,7 @@
 #include "window_utils.h"
 
 #include <algorithm>
-#include <iostream>
+#include <stdexcept>
 
 #include <GLFW/glfw3.h>
 
@@ -12,7 +12,7 @@ GLFWmonitor* FindBestMonitor(GLFWwindow* glfw_window) {
   int monitor_count;
   GLFWmonitor** monitors = glfwGetMonitors(&monitor_count);
   if (!monitors) {
-    std::cerr << "Error: glfwGetMonitors failed";
+    throw std::exception("glfwGetMonitors failed");
   }
 
   int window_x, window_y, window_width, window_height;

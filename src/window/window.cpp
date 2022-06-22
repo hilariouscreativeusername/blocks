@@ -1,6 +1,6 @@
 #include "window.h"
 
-#include <iostream>
+#include <stdexcept>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -9,14 +9,14 @@
 
 Window::Window(unsigned int width, unsigned int height, bool use_vsync) {
   if (!glfwInit()) {
-    std::cerr << "Error: glfw failed to initialise\n";
+    throw std::exception("Error: glfw failed to initialise");
   }
 
   glfw_window_ = glfwCreateWindow(width, height, "Test Window", nullptr, nullptr);
 
   glfwMakeContextCurrent(glfw_window_);
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-    std::cerr << "Error: glad failed to initialise OpenGL context\n";
+    throw std::exception("glad failed to initialise OpenGL context");
   }
 
   glClearColor(0.1f, 0.4f, 0.5f, 1.0f);
