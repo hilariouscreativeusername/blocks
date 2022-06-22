@@ -29,7 +29,7 @@ int main() {
   auto last_time = std::chrono::steady_clock::now();
   while (window.IsOpen()) {
     auto now = std::chrono::steady_clock::now();
-    float delta_time = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_time).count() * 0.00000001f;
+    float delta_time = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_time).count() * 0.000000001f;
     last_time = now;
 
     window.PollEvents();

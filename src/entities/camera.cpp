@@ -8,7 +8,7 @@ constexpr glm::vec3 kXAxis = glm::vec3(1, 0, 0);
 constexpr glm::vec3 kYAxis = glm::vec3(0, 1, 0);
 
 constexpr float kLookSensitivity = 5.0f;
-constexpr float kWalkSpeed = 5.0f;
+constexpr float kWalkSpeed = 7.0f;
 
 Camera::Camera(Window* window, Shader* chunk_shader) : window_(window), chunk_shader_(chunk_shader) {
   auto recalc_projection = [&](float width, float height) {
@@ -23,6 +23,7 @@ Camera::Camera(Window* window, Shader* chunk_shader) : window_(window), chunk_sh
 
 void Camera::FreeMove(float delta_time) {
   float delta_look = kLookSensitivity * delta_time;
+  float delta_mouse_look = delta_look * 0.01f;
   float delta_walk = kWalkSpeed * delta_time;
  
   // Calculate rotation
@@ -34,8 +35,8 @@ void Camera::FreeMove(float delta_time) {
   lock_pressed_last_frame = window_->IsKeyDown(GLFW_KEY_E);
 
   if (window_->IsCursorLocked()) {
-    rotation_.x += window_->CursorDeltaY() * delta_look * 0.01f;
-    rotation_.y += window_->CursorDeltaX() * delta_look * 0.01f;
+    rotation_.x += window_->CursorDeltaY() * delta_mouse_look;
+    rotation_.y += window_->CursorDeltaX() * delta_mouse_look;
   }
 
   // Rotation with arrow keys

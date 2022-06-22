@@ -40,10 +40,10 @@ public:
   void AddResizeCallback(ResizeFunc resize_func);
 
 private:
-  double cursor_delta_x_;
-  double cursor_delta_y_;
-  double cursor_x_;
-  double cursor_y_;
+  double cursor_delta_x_ = 0.0;
+  double cursor_delta_y_ = 0.0;
+  double cursor_x_ = 0.0;
+  double cursor_y_ = 0.0;
 
   GLFWwindow* glfw_window_;
   std::vector<ResizeFunc> resize_callbacks_;

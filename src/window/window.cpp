@@ -72,6 +72,7 @@ bool Window::IsCursorLocked() const {
 
 void Window::SetCursorLock(bool lock) {
   glfwSetInputMode(glfw_window_, GLFW_CURSOR, lock ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
+  glfwSetInputMode(glfw_window_, GLFW_RAW_MOUSE_MOTION, lock ? GLFW_TRUE : GLFW_FALSE);
 }
 
 void Window::ToggleCursorLock() {
