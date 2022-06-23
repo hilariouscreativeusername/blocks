@@ -14,7 +14,7 @@ VertexArray::VertexArray(float* vertices, unsigned int num_vertices, unsigned in
   glBindBuffer(GL_ARRAY_BUFFER, vbo_);
 
   // Upload vertex data to vertex buffer
-  glBufferData(GL_ARRAY_BUFFER, num_vertices, vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, num_vertices * sizeof(float), vertices, GL_STATIC_DRAW);
  
   // Tell OpenGL how to interpret the vertex data
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
@@ -27,7 +27,7 @@ VertexArray::VertexArray(float* vertices, unsigned int num_vertices, unsigned in
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo_);
 
   // Upload index data to index buffer
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_indices, indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, num_indices * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
   // We have finished performing operations on the VBO and it is now associated with the VAO, so unbind
   glBindBuffer(GL_ARRAY_BUFFER, 0);
