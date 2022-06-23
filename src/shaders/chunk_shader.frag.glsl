@@ -8,4 +8,7 @@ uniform sampler2DArray u_texture;
 
 void main() {
   o_colour = texture(u_texture, v_tex);
+  if (o_colour.a < 0.5) {
+    discard;
+  }
 }
