@@ -11,7 +11,7 @@ unsigned int CompileShader(const char* shader_path, GLenum shader_type) {
   // Read whole shader source file into a string
   std::ifstream shader_file(shader_path);
   if (!shader_file.is_open()) {
-    throw std::exception("Unable to open shader file");
+    throw std::runtime_error("Unable to open shader file");
   }
   std::stringstream string_buffer;
   string_buffer << shader_file.rdbuf();
@@ -27,7 +27,7 @@ unsigned int CompileShader(const char* shader_path, GLenum shader_type) {
   glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
   if (!success) {
     glGetShaderInfoLog(shader, 512, NULL, info_log);
-    throw std::exception(info_log);
+    throw std::runtime_error(info_log);
   }
 
   return shader;
@@ -49,7 +49,7 @@ Shader::Shader(const char* vert_path, const char* frag_path) {
   glGetProgramiv(shader_program_, GL_LINK_STATUS, &success);
   if (!success) {
     glGetProgramInfoLog(shader_program_, 512, NULL, info_log);
-    throw std::exception(info_log);
+    throw std::runtime_error(info_log);
   }
 
   // Cleanup shaders

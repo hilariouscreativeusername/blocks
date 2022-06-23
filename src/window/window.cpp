@@ -9,14 +9,20 @@
 
 Window::Window(unsigned int width, unsigned int height, bool use_vsync) {
   if (!glfwInit()) {
-    throw std::exception("Error: glfw failed to initialise");
+    throw std::runtime_error("Error: glfw failed to initialise");
   }
 
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
   glfw_window_ = glfwCreateWindow(width, height, "Test Window", nullptr, nullptr);
 
   glfwMakeContextCurrent(glfw_window_);
   if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-    throw std::exception("glad failed to initialise OpenGL context");
+    throw std::runtime_error("glad failed to initialise OpenGL context");
   }
 
   glClearColor(0.1f, 0.4f, 0.5f, 1.0f);

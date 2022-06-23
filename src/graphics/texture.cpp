@@ -14,7 +14,7 @@ Texture::Texture(const char* path) {
 	data = stbi_load(path, &width, &height, &channels, 0);
 
 	if (!data) {
-		throw std::exception("Failed to load image");
+		throw std::runtime_error("Failed to load image");
 	}
 
 	GLenum internal_format = 0, data_format = 0;
@@ -29,7 +29,7 @@ Texture::Texture(const char* path) {
 	}
 	
 	if (!(internal_format & data_format)) {
-		throw std::exception("Unsupported image format");
+		throw std::runtime_error("Unsupported image format");
 	}
 	
 	glGenTextures(1, &texture_id_);

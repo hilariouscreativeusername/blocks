@@ -3,6 +3,8 @@
 #include "block.h"
 #include "graphics/vertex_array.h"
 
+#include <cstddef>
+
 static constexpr size_t kChunkWidth  = 16;
 static constexpr size_t kChunkHeight = 16;
 static constexpr size_t kChunkDepth  = 16;
