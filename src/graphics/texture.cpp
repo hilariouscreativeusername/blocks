@@ -11,7 +11,6 @@ Texture::Texture(const char* path) {
   int width, height, channels;
 	stbi_uc* data = nullptr;
 
-  stbi_set_flip_vertically_on_load(true);
 	data = stbi_load(path, &width, &height, &channels, 0);
 
 	if (!data) {
@@ -46,4 +45,12 @@ Texture::Texture(const char* path) {
 	stbi_image_free(data);
 
 	glGenerateMipmap(GL_TEXTURE_2D);
+}
+
+Texture::~Texture() {
+  glDeleteTextures(1, &texture_id_);
+}
+
+void Texture::Bind() {
+	glBindTexture(GL_TEXTURE_2D, texture_id_);
 }
