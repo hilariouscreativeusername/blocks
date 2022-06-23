@@ -185,5 +185,10 @@ VertexArray* GenerateMesh(Block* blocks) {
     }
   }
 
+  const size_t kVertexOffset = num_allocated_quads * kQuadSizeVertices;
+  vertices.resize(kVertexOffset);
+  const size_t kIndexOffset = num_allocated_quads * kQuadSizeIndices;
+  indices.resize(kIndexOffset);
+
   return new VertexArray(vertices.data(), vertices.size(), indices.data(), indices.size());
 }
