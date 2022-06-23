@@ -45,6 +45,7 @@ void Camera::FreeMove(float delta_time) {
   if (window_->IsKeyDown(GLFW_KEY_LEFT))       { rotation_.y -= delta_look; }
   if (window_->IsKeyDown(GLFW_KEY_RIGHT))      { rotation_.y += delta_look; }
 
+  rotation_.x = std::clamp(rotation_.x, -1.57f, 1.57f);
 
   glm::mat4 view = glm::rotate(glm::mat4(1), rotation_.x, kXAxis);
   view = glm::rotate(view, rotation_.y, kYAxis);
