@@ -3,6 +3,7 @@
 #include "entities/camera.h"
 #include "graphics/vertex_array.h"
 #include "graphics/shader.h"
+#include "graphics/texture.h"
 #include "window/window.h"
 
 constexpr float kMaxSecondsPerFrame = 1.0f / 120.0f; // Target fps - default 120
@@ -12,7 +13,7 @@ int main() {
   Window window;
 
   float vertices[] = {
-  //  x      y      z    u   v
+  //  x      y      z     u     v
      0.5f,  0.5f, -5.0f, 1.0f, 0.0f, // top right
      0.5f, -0.5f, -5.0f, 1.0f, 1.0f, // bottom right
     -0.5f, -0.5f, -5.0f, 0.0f, 1.0f, // bottom left
@@ -25,6 +26,8 @@ int main() {
   VertexArray vertex_array(vertices, sizeof(vertices), indices, sizeof(indices));
 
   Shader chunk_shader("src/shaders/chunk_shader.vert.glsl", "src/shaders/chunk_shader.frag.glsl");
+
+  Texture texture("res/textures/test.png");
 
   Camera camera(&window, &chunk_shader);
   window.PerformResizeCallbacks();

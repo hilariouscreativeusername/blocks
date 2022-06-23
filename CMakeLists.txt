@@ -8,7 +8,7 @@ source_group("src" FILES ${SOURCE_FILES})
 set(WINDOW_FILES src/window/window.h src/window/window.cpp src/window/window_utils.h src/window/window_utils.cpp)
 source_group("src/window" FILES ${WINDOW_FILES})
 
-set(GRAPHICS_FILES src/graphics/vertex_array.h src/graphics/vertex_array.cpp src/graphics/shader.h src/graphics/shader.cpp)
+set(GRAPHICS_FILES src/graphics/vertex_array.h src/graphics/vertex_array.cpp src/graphics/shader.h src/graphics/shader.cpp src/graphics/texture.h src/graphics/texture.cpp)
 source_group("src/graphics" FILES ${GRAPHICS_FILES})
 
 set(SHADER_FILES src/shaders/chunk_shader.vert.glsl src/shaders/chunk_shader.frag.glsl)
@@ -30,6 +30,8 @@ add_subdirectory(depend/glad)
 target_link_libraries(${PROJECT_NAME} PRIVATE glad)
 
 target_include_directories(${PROJECT_NAME} PRIVATE depend/glm)
+
+target_include_directories(${PROJECT_NAME} PRIVATE depend/stb)
 
 # Platform-specific stuff
 if(WIN32)
