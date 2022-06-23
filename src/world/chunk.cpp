@@ -1,19 +1,24 @@
 #include "chunk.h"
 
-Chunk::Chunk(int x, int z) {
-  float vertices[] = {
-  //  x      y      z     u     v
-     0.5f,  0.5f, -5.0f, 1.0f, 0.0f, // top right
-     0.5f, -0.5f, -5.0f, 1.0f, 1.0f, // bottom right
-    -0.5f, -0.5f, -5.0f, 0.0f, 1.0f, // bottom left
-    -0.5f,  0.5f, -5.0f, 0.0f, 0.0f, // top left 
-  };
-  unsigned int indices[] = { 
-    0, 1, 3,  // first Triangle
-    1, 2, 3   // second Triangle
-  };
+#include "chunk_mesh_generator.h"
 
-  vertex_array_ = new VertexArray(vertices, sizeof(vertices), indices, sizeof(indices));
+Chunk::Chunk(int x, int z) {
+  // We have 2 options - 
+  //   If the chunk has never bee loaded, generate it
+  //   If the chunk has previously been loaded and saved to disk, load it from disk
+
+  // TODO: Loading from disk
+
+  // Generate chunk
+  for (size_t x = 0; x < kChunkWidth; ++x) {
+    for (size_t y = 0; y < kChunkHeight; ++y) {
+      for (size_t z = 0; z < kChunkDepth; ++z) {
+        blocks_[x + y * kChunkHeight + z * kChunkHeight * kChunkDepth] = Block::kDirt;
+      }
+    }
+  }
+
+  vertex_array_ = GenerateMesh(blocks_);
 }
 
 void Chunk::Draw() {
