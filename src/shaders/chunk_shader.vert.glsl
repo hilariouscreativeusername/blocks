@@ -1,9 +1,9 @@
 #version 330 core
 
 layout (location = 0) in vec3 a_pos;
-layout (location = 1) in vec2 a_tex;
+layout (location = 1) in vec3 a_tex;
 
-out vec2 v_tex;
+out vec3 v_tex;
 
 uniform mat4 u_projection;
 uniform mat4 u_view;

@@ -2,7 +2,7 @@
 
 #include "entities/camera.h"
 #include "graphics/shader.h"
-#include "graphics/texture.h"
+#include "graphics/texture_array.h"
 #include "window/window.h"
 #include "world/chunk.h"
 
@@ -14,7 +14,23 @@ int main() {
 
   Shader chunk_shader("src/shaders/chunk_shader.vert.glsl", "src/shaders/chunk_shader.frag.glsl");
 
-  Texture texture("res/textures/test.png");
+  const char* texture_paths[] = {
+    "res/textures/andesite.png",
+    "res/textures/basalt.png",
+    "res/textures/dirt.png",
+    "res/textures/grass_side.png",
+    "res/textures/grass.png",
+    "res/textures/grass.png",
+    "res/textures/leaves_1.png",
+    "res/textures/leaves_2.png",
+    "res/textures/leaves_3.png",
+    "res/textures/leaves_opaque.png",
+    "res/textures/limestone.png",
+    "res/textures/log_side.png",
+    "res/textures/log.png",
+    "res/textures/rhyolite.png",
+  };
+  TextureArray block_textures(texture_paths, 14);
 
   Camera camera(&window, &chunk_shader);
   window.PerformResizeCallbacks();
