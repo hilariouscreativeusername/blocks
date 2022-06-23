@@ -34,6 +34,8 @@ Window::Window(unsigned int width, unsigned int height, bool use_vsync) {
 
   glEnable(GL_CULL_FACE);
   glCullFace(GL_BACK);
+
+  glEnable(GL_DEPTH_TEST);
 }
 
 Window::~Window() {
@@ -54,7 +56,7 @@ void Window::PollEvents() {
 }
 
 void Window::Clear() {
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::SwapBuffers() {
