@@ -8,7 +8,7 @@ source_group("src" FILES ${SOURCE_FILES})
 set(WINDOW_FILES src/window/window.h src/window/window.cpp src/window/window_utils.h src/window/window_utils.cpp)
 source_group("src/window" FILES ${WINDOW_FILES})
 
-set(GRAPHICS_FILES src/graphics/vertex_array.h src/graphics/vertex_array.cpp src/graphics/shader.h src/graphics/shader.cpp src/graphics/texture.h src/graphics/texture.cpp)
+set(GRAPHICS_FILES src/graphics/vertex_array.h src/graphics/vertex_array.cpp src/graphics/shader.h src/graphics/shader.cpp src/graphics/texture.h src/graphics/texture.cpp src/graphics/texture_array.h src/graphics/texture_array.cpp)
 source_group("src/graphics" FILES ${GRAPHICS_FILES})
 
 set(SHADER_FILES src/shaders/chunk_shader.vert.glsl src/shaders/chunk_shader.frag.glsl)
