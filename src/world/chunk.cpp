@@ -2,6 +2,8 @@
 
 #include "chunk_mesh_generator.h"
 
+#include <random>
+
 Chunk::Chunk(int x, int z) {
   // We have 2 options - 
   //   If the chunk has never bee loaded, generate it
@@ -13,7 +15,7 @@ Chunk::Chunk(int x, int z) {
   for (size_t x = 0; x < kChunkWidth; ++x) {
     for (size_t y = 0; y < kChunkHeight; ++y) {
       for (size_t z = 0; z < kChunkDepth; ++z) {
-        blocks_[x + y * kChunkHeight + z * kChunkHeight * kChunkDepth] = Block::kDirt;
+        blocks_[x + y * kChunkHeight + z * kChunkHeight * kChunkDepth] = rand() % 2 == 0 ? Block::kDirt : Block::kAir;
       }
     }
   }

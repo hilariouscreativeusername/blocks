@@ -113,6 +113,10 @@ VertexArray* GenerateMesh(Block* blocks) {
   for (int x = 0; x < kChunkWidth; ++x) {
     for (int y = 0; y < kChunkHeight; ++y) {
       for (int z = 0; z < kChunkDepth; ++z) {
+        Block block = blocks[x + y * kChunkHeight + z * kChunkHeight * kChunkDepth];
+        if (block == Block::kAir) {
+          continue;
+        }
 
         allocate_quad(x, y, z, CardinalDirection::kSouth);
         allocate_quad(x, y, z, CardinalDirection::kNorth);
