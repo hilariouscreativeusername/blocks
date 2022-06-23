@@ -5,7 +5,6 @@ public:
   VertexArray(float* vertices, unsigned int num_vertices, unsigned int* indices, unsigned int num_indices);
   ~VertexArray();
 
-  void Bind();
   void Draw();
 
 private:

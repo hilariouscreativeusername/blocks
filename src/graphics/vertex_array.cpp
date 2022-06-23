@@ -40,10 +40,7 @@ VertexArray::~VertexArray() {
   glDeleteBuffers(1, &vbo_);
 }
 
-void VertexArray::Bind() {
-  glBindVertexArray(vao_);
-}
-
 void VertexArray::Draw() {
+  glBindVertexArray(vao_);
   glDrawElements(GL_TRIANGLES, num_indices_, GL_UNSIGNED_INT, 0);
 }

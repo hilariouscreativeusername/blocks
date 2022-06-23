@@ -17,8 +17,11 @@ source_group("src/shaders" FILES ${SHADER_FILES})
 set(ENTITY_FILES src/entities/entity.h src/entities/camera.h src/entities/camera.cpp)
 source_group("src/entities" FILES ${ENTITY_FILES})
 
+set(WORLD_FILES src/world/chunk.h src/world/chunk.cpp)
+source_group("src/world" FILES ${WORLD_FILES})
+
 # Executable options
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${WINDOW_FILES} ${GRAPHICS_FILES} ${SHADER_FILES} ${ENTITY_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${WINDOW_FILES} ${GRAPHICS_FILES} ${SHADER_FILES} ${ENTITY_FILES} ${WORLD_FILES})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 target_include_directories(${PROJECT_NAME} PRIVATE src)
 
