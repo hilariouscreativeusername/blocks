@@ -59,7 +59,63 @@ VertexArray* GenerateMesh(Block* blocks) {
     kSouth, kNorth, kEast, kWest, kUp, kDown
   };
 
+  auto quad_is_occluded = [&](int x, int y, int z, CardinalDirection dir) {
+    switch (dir) {
+      case CardinalDirection::kSouth:
+        if (z == kChunkDepth - 1) {
+          return false; // TODO: Check adjacent chunks
+        }
+        else {
+          return BlockProps::IsOccluding(blocks[x + y * kChunkHeight + (z + 1) * kChunkHeight * kChunkDepth]);
+        }
+
+      case CardinalDirection::kNorth:
+        if (z == 0) {
+          return false; // TODO: Check adjacent chunks
+        }
+        else {
+          return BlockProps::IsOccluding(blocks[x + y * kChunkHeight + (z - 1) * kChunkHeight * kChunkDepth]);
+        }
+
+      case CardinalDirection::kEast:
+        if (x == kChunkWidth - 1) {
+          return false; // TODO: Check adjacent chunks
+        }
+        else {
+          return BlockProps::IsOccluding(blocks[(x + 1) + y * kChunkHeight + z * kChunkHeight * kChunkDepth]);
+        }
+
+      case CardinalDirection::kWest:
+        if (x == 0) {
+          return false; // TODO: Check adjacent chunks
+        }
+        else {
+          return BlockProps::IsOccluding(blocks[(x - 1) + y * kChunkHeight + z * kChunkHeight * kChunkDepth]);
+        }
+
+      case CardinalDirection::kUp:
+        if (y == kChunkHeight - 1) {
+          return false; // TODO: Check adjacent chunks
+        }
+        else {
+          return BlockProps::IsOccluding(blocks[x + (y + 1) * kChunkHeight + z * kChunkHeight * kChunkDepth]);
+        }
+
+      case CardinalDirection::kDown:
+        if (y == 0) {
+          return false; // TODO: Check adjacent chunks
+        }
+        else {
+          return BlockProps::IsOccluding(blocks[x + (y - 1) * kChunkHeight + z * kChunkHeight * kChunkDepth]);
+        }
+    }
+  };
+
   auto allocate_quad = [&](int x, int y, int z, CardinalDirection dir) {
+    if (quad_is_occluded(x, y, z, dir)) {
+      return;
+    }
+
     const size_t kVertexOffset = num_allocated_quads * kQuadSizeVertices;
 
     switch (dir) {

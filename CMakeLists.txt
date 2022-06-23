@@ -17,7 +17,7 @@ source_group("src/shaders" FILES ${SHADER_FILES})
 set(ENTITY_FILES src/entities/entity.h src/entities/camera.h src/entities/camera.cpp)
 source_group("src/entities" FILES ${ENTITY_FILES})
 
-set(WORLD_FILES src/world/chunk.h src/world/chunk.cpp src/world/block.h src/world/chunk_mesh_generator.h src/world/chunk_mesh_generator.cpp)
+set(WORLD_FILES src/world/chunk.h src/world/chunk.cpp src/world/block.h src/world/block.cpp src/world/chunk_mesh_generator.h src/world/chunk_mesh_generator.cpp)
 source_group("src/world" FILES ${WORLD_FILES})
 
 # Executable options

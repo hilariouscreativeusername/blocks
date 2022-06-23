@@ -7,3 +7,9 @@ enum class Block : unsigned char {
   kLog    = 3,
   kLeaves = 4,
 };
+
+namespace BlockProps {
+
+bool IsOccluding(Block block);
+
+}
