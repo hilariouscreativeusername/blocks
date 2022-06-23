@@ -31,6 +31,9 @@ Window::Window(unsigned int width, unsigned int height, bool use_vsync) {
   });
 
   CenterWindow(glfw_window_);
+
+  glEnable(GL_CULL_FACE);
+  glCullFace(GL_BACK);
 }
 
 Window::~Window() {
