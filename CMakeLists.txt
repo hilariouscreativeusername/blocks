@@ -20,8 +20,11 @@ source_group("src/entities" FILES ${ENTITY_FILES})
 set(WORLD_FILES src/world/chunk.h src/world/chunk.cpp src/world/block.h src/world/block.cpp src/world/chunk_mesh_generator.h src/world/chunk_mesh_generator.cpp)
 source_group("src/world" FILES ${WORLD_FILES})
 
+set(SERVER_FILES src/server/server.h src/server/server.cpp)
+source_group("src/server" FILES ${SERVER_FILES})
+
 # Executable options
-add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${WINDOW_FILES} ${GRAPHICS_FILES} ${SHADER_FILES} ${ENTITY_FILES} ${WORLD_FILES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${WINDOW_FILES} ${GRAPHICS_FILES} ${SHADER_FILES} ${ENTITY_FILES} ${WORLD_FILES} ${SERVER_FILES})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_include_directories(${PROJECT_NAME} PRIVATE src)
 

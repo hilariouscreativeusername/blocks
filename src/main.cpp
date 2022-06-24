@@ -1,8 +1,10 @@
 #include <chrono>
+#include <thread>
 
 #include "entities/camera.h"
 #include "graphics/shader.h"
 #include "graphics/texture_array.h"
+#include "server/server.h"
 #include "window/window.h"
 #include "world/chunk.h"
 
@@ -35,10 +37,8 @@ int main() {
   Camera camera(&window, &chunk_shader);
   window.PerformResizeCallbacks();
   //window.SetCursorLock(true);
-
-  Chunk chunk1(0, 0, 0);
-  Chunk chunk2(1, 0, 0);
-  Chunk chunk3(-1, 1, -1);
+  
+  std::thread server_thread(StartServer);
 
   auto last_tick = std::chrono::steady_clock::now();
   auto last_frame = std::chrono::steady_clock::now();
@@ -62,10 +62,6 @@ int main() {
       window.Clear();
 
       chunk_shader.Bind();
-
-      chunk1.Draw();
-      chunk2.Draw();
-      chunk3.Draw();
 
       window.SwapBuffers();
     }
