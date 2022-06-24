@@ -36,7 +36,9 @@ int main() {
   window.PerformResizeCallbacks();
   //window.SetCursorLock(true);
 
-  Chunk chunk(0, 0);
+  Chunk chunk1(0, 0, 0);
+  Chunk chunk2(1, 0, 0);
+  Chunk chunk3(1, 1, -1);
 
   auto last_tick = std::chrono::steady_clock::now();
   auto last_frame = std::chrono::steady_clock::now();
@@ -61,7 +63,9 @@ int main() {
 
       chunk_shader.Bind();
 
-      chunk.Draw();
+      chunk1.Draw();
+      chunk2.Draw();
+      chunk3.Draw();
 
       window.SwapBuffers();
     }

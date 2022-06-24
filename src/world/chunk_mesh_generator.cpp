@@ -6,9 +6,10 @@
 
 #include "chunk.h"
 
-VertexArray* GenerateMesh(Block* blocks) {
-  // Non-indexed size of one face = 120 bytes
-  //                 Indexed size = 104 bytes
+VertexArray* GenerateMesh(Block* blocks, int chunkx, int chunky, int chunkz) {
+  const int kChunkXOffs = chunkx * kChunkWidth;
+  const int kChunkYOffs = chunky * kChunkHeight;
+  const int kChunkZOffs = chunkz * kChunkDepth;
 
   // All sizes in floats
   constexpr size_t kVertexSize         = 6;
@@ -17,7 +18,6 @@ VertexArray* GenerateMesh(Block* blocks) {
   constexpr size_t kMaxBlockVertices   = kQuadSizeVertices * 6;
   constexpr size_t kChunkSize          = kChunkWidth * kChunkHeight * kChunkDepth;
   constexpr size_t kMaxVertices        = kChunkSize * kMaxBlockVertices;
-  // Max size of vertices in GPU memory ~2MB
   std::vector<float> vertices(kMaxVertices);
 
   // Size in unsigned ints
@@ -25,7 +25,6 @@ VertexArray* GenerateMesh(Block* blocks) {
   constexpr size_t kBlockMaxQuads   = 6;
   constexpr size_t kMaxIndices = kChunkSize * kQuadSizeIndices * kBlockMaxQuads;
   std::vector<unsigned int> indices(kMaxIndices);
-  // Max size of indices in GPU memory ~100KB
 
   size_t num_allocated_quads = 0;
 
@@ -58,7 +57,7 @@ VertexArray* GenerateMesh(Block* blocks) {
     vertices[vertex_offset + 23] = w;
   };
 
-  auto quad_is_occluded = [&](int x, int y, int z, CardinalDirection dir) {
+  auto is_quad_occluded = [&](int x, int y, int z, CardinalDirection dir) {
     switch (dir) {
       case CardinalDirection::kSouth:
         if (z == kChunkDepth - 1) {
@@ -111,7 +110,7 @@ VertexArray* GenerateMesh(Block* blocks) {
   };
 
   auto allocate_quad = [&](int x, int y, int z, CardinalDirection dir) {
-    if (quad_is_occluded(x, y, z, dir)) {
+    if (is_quad_occluded(x, y, z, dir)) {
       return;
     }
 
@@ -119,45 +118,45 @@ VertexArray* GenerateMesh(Block* blocks) {
 
     switch (dir) {
       case CardinalDirection::kSouth:
-        vertices[kVertexOffset  + 0] = 1.0f + x; vertices[kVertexOffset  + 1] = 1.0f + y; vertices[kVertexOffset  + 2] = 1.0f + z;
-        vertices[kVertexOffset  + 6] = 1.0f + x; vertices[kVertexOffset  + 7] = 0.0f + y; vertices[kVertexOffset  + 8] = 1.0f + z;
-        vertices[kVertexOffset + 12] = 0.0f + x; vertices[kVertexOffset + 13] = 0.0f + y; vertices[kVertexOffset + 14] = 1.0f + z;
-        vertices[kVertexOffset + 18] = 0.0f + x; vertices[kVertexOffset + 19] = 1.0f + y; vertices[kVertexOffset + 20] = 1.0f + z;
+        vertices[kVertexOffset  + 0] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset  + 1] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset  + 2] = 1.0f + z + kChunkZOffs;
+        vertices[kVertexOffset  + 6] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset  + 7] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset  + 8] = 1.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 12] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset + 13] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset + 14] = 1.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 18] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset + 19] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset + 20] = 1.0f + z + kChunkZOffs;
         break;
 
       case CardinalDirection::kNorth:
-        vertices[kVertexOffset  + 0] = 0.0f + x; vertices[kVertexOffset  + 1] = 1.0f + y; vertices[kVertexOffset  + 2] = 0.0f + z;
-        vertices[kVertexOffset  + 6] = 0.0f + x; vertices[kVertexOffset  + 7] = 0.0f + y; vertices[kVertexOffset  + 8] = 0.0f + z;
-        vertices[kVertexOffset + 12] = 1.0f + x; vertices[kVertexOffset + 13] = 0.0f + y; vertices[kVertexOffset + 14] = 0.0f + z;
-        vertices[kVertexOffset + 18] = 1.0f + x; vertices[kVertexOffset + 19] = 1.0f + y; vertices[kVertexOffset + 20] = 0.0f + z;
+        vertices[kVertexOffset  + 0] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset  + 1] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset  + 2] = 0.0f + z + kChunkZOffs;
+        vertices[kVertexOffset  + 6] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset  + 7] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset  + 8] = 0.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 12] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset + 13] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset + 14] = 0.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 18] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset + 19] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset + 20] = 0.0f + z + kChunkZOffs;
         break;
 
       case CardinalDirection::kEast:
-        vertices[kVertexOffset  + 0] = 1.0f + x; vertices[kVertexOffset  + 1] = 1.0f + y; vertices[kVertexOffset  + 2] = 0.0f + z;
-        vertices[kVertexOffset  + 6] = 1.0f + x; vertices[kVertexOffset  + 7] = 0.0f + y; vertices[kVertexOffset  + 8] = 0.0f + z;
-        vertices[kVertexOffset + 12] = 1.0f + x; vertices[kVertexOffset + 13] = 0.0f + y; vertices[kVertexOffset + 14] = 1.0f + z;
-        vertices[kVertexOffset + 18] = 1.0f + x; vertices[kVertexOffset + 19] = 1.0f + y; vertices[kVertexOffset + 20] = 1.0f + z;
+        vertices[kVertexOffset  + 0] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset  + 1] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset  + 2] = 0.0f + z + kChunkZOffs;
+        vertices[kVertexOffset  + 6] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset  + 7] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset  + 8] = 0.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 12] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset + 13] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset + 14] = 1.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 18] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset + 19] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset + 20] = 1.0f + z + kChunkZOffs;
         break;
 
       case CardinalDirection::kWest:
-        vertices[kVertexOffset  + 0] = 0.0f + x; vertices[kVertexOffset  + 1] = 1.0f + y; vertices[kVertexOffset  + 2] = 1.0f + z;
-        vertices[kVertexOffset  + 6] = 0.0f + x; vertices[kVertexOffset  + 7] = 0.0f + y; vertices[kVertexOffset  + 8] = 1.0f + z;
-        vertices[kVertexOffset + 12] = 0.0f + x; vertices[kVertexOffset + 13] = 0.0f + y; vertices[kVertexOffset + 14] = 0.0f + z;
-        vertices[kVertexOffset + 18] = 0.0f + x; vertices[kVertexOffset + 19] = 1.0f + y; vertices[kVertexOffset + 20] = 0.0f + z;
+        vertices[kVertexOffset  + 0] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset  + 1] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset  + 2] = 1.0f + z + kChunkZOffs;
+        vertices[kVertexOffset  + 6] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset  + 7] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset  + 8] = 1.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 12] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset + 13] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset + 14] = 0.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 18] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset + 19] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset + 20] = 0.0f + z + kChunkZOffs;
         break;
 
       case CardinalDirection::kDown:
-        vertices[kVertexOffset  + 0] = 1.0f + x; vertices[kVertexOffset  + 1] = 0.0f + y; vertices[kVertexOffset  + 2] = 1.0f + z;
-        vertices[kVertexOffset  + 6] = 1.0f + x; vertices[kVertexOffset  + 7] = 0.0f + y; vertices[kVertexOffset  + 8] = 0.0f + z;
-        vertices[kVertexOffset + 12] = 0.0f + x; vertices[kVertexOffset + 13] = 0.0f + y; vertices[kVertexOffset + 14] = 0.0f + z;
-        vertices[kVertexOffset + 18] = 0.0f + x; vertices[kVertexOffset + 19] = 0.0f + y; vertices[kVertexOffset + 20] = 1.0f + z;
+        vertices[kVertexOffset  + 0] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset  + 1] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset  + 2] = 1.0f + z + kChunkZOffs;
+        vertices[kVertexOffset  + 6] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset  + 7] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset  + 8] = 0.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 12] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset + 13] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset + 14] = 0.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 18] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset + 19] = 0.0f + y + kChunkYOffs; vertices[kVertexOffset + 20] = 1.0f + z + kChunkZOffs;
         break;
 
       case CardinalDirection::kUp:
-        vertices[kVertexOffset  + 0] = 1.0f + x; vertices[kVertexOffset  + 1] = 1.0f + y; vertices[kVertexOffset  + 2] = 0.0f + z;
-        vertices[kVertexOffset  + 6] = 1.0f + x; vertices[kVertexOffset  + 7] = 1.0f + y; vertices[kVertexOffset  + 8] = 1.0f + z;
-        vertices[kVertexOffset + 12] = 0.0f + x; vertices[kVertexOffset + 13] = 1.0f + y; vertices[kVertexOffset + 14] = 1.0f + z;
-        vertices[kVertexOffset + 18] = 0.0f + x; vertices[kVertexOffset + 19] = 1.0f + y; vertices[kVertexOffset + 20] = 0.0f + z;
+        vertices[kVertexOffset  + 0] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset  + 1] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset  + 2] = 0.0f + z + kChunkZOffs;
+        vertices[kVertexOffset  + 6] = 1.0f + x + kChunkXOffs; vertices[kVertexOffset  + 7] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset  + 8] = 1.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 12] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset + 13] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset + 14] = 1.0f + z + kChunkZOffs;
+        vertices[kVertexOffset + 18] = 0.0f + x + kChunkXOffs; vertices[kVertexOffset + 19] = 1.0f + y + kChunkYOffs; vertices[kVertexOffset + 20] = 0.0f + z + kChunkZOffs;
         break;
     }
 

@@ -11,7 +11,7 @@ static constexpr size_t kChunkDepth  = 16;
 
 class Chunk {
 public:
-  Chunk(int x, int z);
+  Chunk(int x, int y, int z);
 
 public:
   void Draw();

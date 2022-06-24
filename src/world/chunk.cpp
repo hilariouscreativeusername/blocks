@@ -4,7 +4,7 @@
 
 #include <random>
 
-Chunk::Chunk(int x, int z) {
+Chunk::Chunk(int chunkx, int chunky, int chunkz) {
   // We have 2 options - 
   //   If the chunk has never bee loaded, generate it
   //   If the chunk has previously been loaded and saved to disk, load it from disk
@@ -20,7 +20,7 @@ Chunk::Chunk(int x, int z) {
     }
   }
 
-  vertex_array_ = GenerateMesh(blocks_);
+  vertex_array_ = GenerateMesh(blocks_, chunkx, chunky, chunkz);
 }
 
 void Chunk::Draw() {
