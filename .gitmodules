@@ -4,3 +4,6 @@
 [submodule "depend/glm"]
 	path = depend/glm
 	url = https://github.com/g-truc/glm
+[submodule "depend/cartilage"]
+	path = depend/cartilage
+	url = https://github.com/hilariouscreativeusername/cartilage

@@ -22,7 +22,7 @@ source_group("src/world" FILES ${WORLD_FILES})
 
 # Executable options
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${WINDOW_FILES} ${GRAPHICS_FILES} ${SHADER_FILES} ${ENTITY_FILES} ${WORLD_FILES})
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 target_include_directories(${PROJECT_NAME} PRIVATE src)
 
 # Dependencies
@@ -35,6 +35,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE glad)
 target_include_directories(${PROJECT_NAME} PRIVATE depend/glm)
 
 target_include_directories(${PROJECT_NAME} PRIVATE depend/stb)
+
+add_subdirectory(depend/cartilage)
+target_link_libraries(${PROJECT_NAME} PRIVATE cartilage)
 
 # Platform-specific stuff
 if(WIN32)
