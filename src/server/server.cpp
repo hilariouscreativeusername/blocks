@@ -18,11 +18,3 @@ void BlocksServer::OnMessage(std::shared_ptr<cartilage::Connection> client, cart
       break;
   }
 }
-
-void StartServer() {
-  BlocksServer server;
-  
-  while (true) {
-    server.ProcessMessages();
-  }
-}
