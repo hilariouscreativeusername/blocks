@@ -3,6 +3,8 @@
 #include <chrono>
 #include <iostream>
 
+#include "message_type.h"
+
 BlocksClient::BlocksClient() {
   Connect("127.0.0.1", 65432);
 }
@@ -11,11 +13,17 @@ BlocksClient::BlocksClient() {
   std::cout << "Pinging server\n";
 
   cartilage::Message msg;
-  msg.header.message_type = 0;
+  msg.header.message_type = MessageType::kPing;
 
   auto now = std::chrono::high_resolution_clock::now();
   msg << now;
 
+  Send(msg);
+}
+
+void BlocksClient::SendShutdownCommand() {
+  cartilage::Message msg;
+  msg.header.message_type = MessageType::kShutdown;
   Send(msg);
 }
 
@@ -24,7 +32,7 @@ void BlocksClient::CheckMessages() {
     cartilage::Message msg = IncomingMessages().pop_front().msg;
     
     switch (msg.header.message_type) {
-      case 0:
+      case MessageType::kPing:
         auto now = std::chrono::high_resolution_clock::now();
         std::chrono::steady_clock::time_point sent_time;
         msg >> sent_time;

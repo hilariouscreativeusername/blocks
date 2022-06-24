@@ -6,7 +6,7 @@
 
 #include "chunk.h"
 
-VertexArray* GenerateMesh(Block* blocks, int chunkx, int chunky, int chunkz) {
+VertexArray* GenerateChunkMesh(Block* blocks, int chunkx, int chunky, int chunkz) {
   const int kChunkXOffs = chunkx * kChunkWidth;
   const int kChunkYOffs = chunky * kChunkHeight;
   const int kChunkZOffs = chunkz * kChunkDepth;

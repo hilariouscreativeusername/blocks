@@ -20,7 +20,7 @@ source_group("src/entities" FILES ${ENTITY_FILES})
 set(WORLD_FILES src/world/chunk.h src/world/chunk.cpp src/world/block.h src/world/block.cpp src/world/chunk_mesh_generator.h src/world/chunk_mesh_generator.cpp)
 source_group("src/world" FILES ${WORLD_FILES})
 
-set(SERVER_FILES src/server/server.h src/server/server.cpp src/server/client.h src/server/client.cpp)
+set(SERVER_FILES src/server/server.h src/server/server.cpp src/server/client.h src/server/client.cpp src/server/message_type.h)
 source_group("src/server" FILES ${SERVER_FILES})
 
 # Executable options

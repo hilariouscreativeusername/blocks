@@ -39,7 +39,7 @@ int main() {
   BlocksServer server;
   server.Start();
   auto server_loop = [&]() {
-    while (true) {
+    while (!server.FlagShutdown()) {
       server.ProcessMessages();
     }
   };
@@ -47,7 +47,6 @@ int main() {
   
   BlocksClient client;
 
-  auto last_tick = std::chrono::steady_clock::now();
   auto last_frame = std::chrono::steady_clock::now();
   while (window.IsOpen()) {
     auto now = std::chrono::steady_clock::now();
@@ -63,9 +62,10 @@ int main() {
 
     chunk_shader.Bind();
     // Render chunks here
-    
-    client.PingServer();
 
     window.SwapBuffers();
   }
+  
+  client.SendShutdownCommand();
+  server_thread.join();
 }
