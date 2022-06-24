@@ -38,7 +38,7 @@ int main() {
 
   Chunk chunk1(0, 0, 0);
   Chunk chunk2(1, 0, 0);
-  Chunk chunk3(1, 1, -1);
+  Chunk chunk3(-1, 1, -1);
 
   auto last_tick = std::chrono::steady_clock::now();
   auto last_frame = std::chrono::steady_clock::now();

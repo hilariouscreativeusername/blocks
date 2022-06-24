@@ -3,6 +3,7 @@
 layout (location = 0) out vec4 o_colour;
 
 in vec3 v_tex;
+in float v_light;
 
 uniform sampler2DArray u_texture;
 
@@ -11,4 +12,5 @@ void main() {
   if (o_colour.a < 0.5) {
     discard;
   }
+  o_colour.xyz *= v_light;
 }
