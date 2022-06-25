@@ -1,5 +1,7 @@
 #include "camera.h"
 
+#include <algorithm>
+
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>

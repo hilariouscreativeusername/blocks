@@ -2,7 +2,7 @@
 
 #include <cartilage.hpp>
 
-class BlocksClient : cartilage::Client {
+class BlocksClient : public cartilage::Client {
 public:
   BlocksClient();
 

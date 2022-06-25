@@ -34,7 +34,6 @@ int main() {
 
   Camera camera(&window, &chunk_shader);
   window.PerformResizeCallbacks();
-  //window.SetCursorLock(true);
   
   BlocksServer server;
   server.Start();
