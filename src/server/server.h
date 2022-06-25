@@ -17,3 +17,5 @@ public:
 private:
   bool flag_shutdown_ = false;
 };
+
+void StartServer();

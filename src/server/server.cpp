@@ -28,3 +28,12 @@ void BlocksServer::OnMessage(std::shared_ptr<cartilage::Connection> client, cart
 bool BlocksServer::FlagShutdown() const {
   return flag_shutdown_;
 }
+
+void StartServer() {
+  BlocksServer server;
+  server.Start();
+
+  while (!server.FlagShutdown()) {
+    server.ProcessMessages();
+  }
+}

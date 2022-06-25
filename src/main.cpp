@@ -35,15 +35,7 @@ int main() {
   Camera camera(&window, &chunk_shader);
   window.PerformResizeCallbacks();
   
-  BlocksServer server;
-  server.Start();
-  auto server_loop = [&]() {
-    while (!server.FlagShutdown()) {
-      server.ProcessMessages();
-    }
-  };
-  std::thread server_thread(server_loop);
-  
+  std::thread server_thread(StartServer);
   BlocksClient client;
 
   auto last_frame = std::chrono::steady_clock::now();
