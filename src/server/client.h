@@ -2,12 +2,14 @@
 
 #include <cartilage.hpp>
 
+class World;
+
 class BlocksClient : public cartilage::Client {
 public:
-  BlocksClient();
+  BlocksClient(const char* ip);
 
   void PingServer();
   void SendShutdownCommand();
   
-  void CheckMessages();
+  void CheckMessages(World& world);
 };

@@ -17,10 +17,10 @@ source_group("src/shaders" FILES ${SHADER_FILES})
 set(ENTITY_FILES src/entities/entity.h src/entities/camera.h src/entities/camera.cpp)
 source_group("src/entities" FILES ${ENTITY_FILES})
 
-set(WORLD_FILES src/world/chunk.h src/world/chunk.cpp src/world/block.h src/world/block.cpp src/world/chunk_mesh_generator.h src/world/chunk_mesh_generator.cpp)
+set(WORLD_FILES src/world/chunk.h src/world/chunk.cpp src/world/block.h src/world/block.cpp src/world/chunk_mesh_generator.h src/world/chunk_mesh_generator.cpp src/world/world.h src/world/world.cpp src/world/chunk_generator.h src/world/chunk_generator.cpp)
 source_group("src/world" FILES ${WORLD_FILES})
 
-set(SERVER_FILES src/server/server.h src/server/server.cpp src/server/client.h src/server/client.cpp src/server/message_type.h)
+set(SERVER_FILES src/server/server.h src/server/server.cpp src/server/client.h src/server/client.cpp src/server/message_type.h src/server/client_data.h)
 source_group("src/server" FILES ${SERVER_FILES})
 
 # Executable options

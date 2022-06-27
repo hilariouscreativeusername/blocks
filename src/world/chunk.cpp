@@ -4,21 +4,12 @@
 
 #include <random>
 
-Chunk::Chunk(int chunkx, int chunky, int chunkz) {
-  // We have 2 options - 
-  //   If the chunk has never bee loaded, generate it
-  //   If the chunk has previously been loaded and saved to disk, load it from disk
+Chunk::Chunk(int chunkx, int chunky, int chunkz, Block* blocks) : chunkx_(chunkx), chunky_(chunky), chunkz_(chunkz), blocks_(blocks) {
+  GenerateChunkMesh(blocks_, chunkx_, chunky_, chunkz_);
+}
 
-  // TODO: Loading from disk
-
-  // Generate chunk
-  for (size_t x = 0; x < kChunkWidth; ++x) {
-    for (size_t y = 0; y < kChunkHeight; ++y) {
-      for (size_t z = 0; z < kChunkDepth; ++z) {
-        blocks_[x + y * kChunkHeight + z * kChunkHeight * kChunkDepth] = rand() % 2 == 0 ? Block::kLog : Block::kLeaves;
-      }
-    }
-  }
+Chunk::~Chunk() {
+  delete[] blocks_;
 }
 
 void Chunk::GenerateMesh() {

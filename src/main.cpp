@@ -8,6 +8,7 @@
 #include "server/server.h"
 #include "window/window.h"
 #include "world/chunk.h"
+#include "world/world.h"
 
 int main() {
   Window window;
@@ -36,7 +37,8 @@ int main() {
   window.PerformResizeCallbacks();
   
   std::thread server_thread(StartServer);
-  BlocksClient client;
+  BlocksClient client("127.0.0.1");
+  World world;
 
   auto last_frame = std::chrono::steady_clock::now();
   while (window.IsOpen()) {
@@ -44,7 +46,7 @@ int main() {
     float frame_delta = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_frame).count() * 0.000000001f;
     last_frame = now;
 
-    client.CheckMessages();
+    client.CheckMessages(world);
 
     window.PollEvents();
     camera.FreeMove(frame_delta);
@@ -52,7 +54,7 @@ int main() {
     window.Clear();
 
     chunk_shader.Bind();
-    // Render chunks here
+    world.RenderChunks();
 
     window.SwapBuffers();
   }
