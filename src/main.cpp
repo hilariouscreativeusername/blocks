@@ -1,4 +1,5 @@
 #include <chrono>
+#include <iostream>
 #include <thread>
 
 #include "entities/camera.h"
@@ -10,7 +11,15 @@
 #include "world/chunk.h"
 #include "world/world.h"
 
-int main() {
+int main(int argc, char** argv) {
+  const bool kIsHost = argc == 1;
+  if (kIsHost) {
+    std::cout << "Starting in host mode\n";
+  }
+  else {
+    std::cout << "Starting in join mode\n";
+  }
+
   Window window;
 
   Shader chunk_shader("src/shaders/chunk_shader.vert.glsl", "src/shaders/chunk_shader.frag.glsl");
@@ -36,8 +45,12 @@ int main() {
   Camera camera(&window, &chunk_shader);
   window.PerformResizeCallbacks();
   
-  std::thread server_thread(StartServer);
-  BlocksClient client("127.0.0.1");
+  std::thread* server_thread;
+  if (kIsHost) {
+    server_thread = new std::thread(StartServer);
+  }
+
+  BlocksClient client(kIsHost ? "127.0.0.1" : argv[1]);
   World world;
 
   auto last_frame = std::chrono::steady_clock::now();
@@ -60,5 +73,9 @@ int main() {
   }
   
   client.SendShutdownCommand();
-  server_thread.join();
+
+  if (kIsHost) {
+    server_thread->join();
+    delete server_thread;
+  }
 }
