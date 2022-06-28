@@ -8,7 +8,6 @@ if __name__ == "__main__":
     subprocess.call("cmake -B build -G \"Xcode\"", shell=True)
   elif platform.system() == "Linux":
     # TODO: figure out how to explicitly specify gnu makefiles
-    subprocess.call("mkdir build")
-    subprocess.call("cmake -B build")
+    subprocess.check_call(["cmake", "-B", "build"])
   else:
     print("Error: Unsupported operating system! \"", platform.system(), "\"")
