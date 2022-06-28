@@ -31,12 +31,12 @@ VertexArray* GenerateChunkMesh(Block* blocks, int chunkx, int chunky, int chunkz
   auto allocate_quad_indices = [&]() {
     const size_t kIndexOffset = num_allocated_quads * kQuadSizeIndices;
     const size_t kCurrentVertexIndex = kUniqueQuadVertices * num_allocated_quads;
-    indices[kIndexOffset + 0] = kCurrentVertexIndex + 0;
-    indices[kIndexOffset + 1] = kCurrentVertexIndex + 3;
-    indices[kIndexOffset + 2] = kCurrentVertexIndex + 1;
-    indices[kIndexOffset + 3] = kCurrentVertexIndex + 1;
-    indices[kIndexOffset + 4] = kCurrentVertexIndex + 3;
-    indices[kIndexOffset + 5] = kCurrentVertexIndex + 2;
+    indices[kIndexOffset + 0] = (unsigned int)(kCurrentVertexIndex + 0);
+    indices[kIndexOffset + 1] = (unsigned int)(kCurrentVertexIndex + 3);
+    indices[kIndexOffset + 2] = (unsigned int)(kCurrentVertexIndex + 1);
+    indices[kIndexOffset + 3] = (unsigned int)(kCurrentVertexIndex + 1);
+    indices[kIndexOffset + 4] = (unsigned int)(kCurrentVertexIndex + 3);
+    indices[kIndexOffset + 5] = (unsigned int)(kCurrentVertexIndex + 2);
     ++num_allocated_quads;
   };
 
