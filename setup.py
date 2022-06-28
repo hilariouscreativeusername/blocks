@@ -7,4 +7,4 @@ if __name__ == "__main__":
   elif platform.system() == "Darwin":
     subprocess.call("cmake -B build -G \"Xcode\"", shell=True)
   else:
-    print("Error: Unsupported operating system!")
+    print("Error: Unsupported operating system! \"", platform.system(), "\"")
