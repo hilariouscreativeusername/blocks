@@ -19,14 +19,24 @@ void BlocksServer::OnClientDisconnect(std::shared_ptr<cartilage::Connection> cli
 
 void BlocksServer::OnMessage(std::shared_ptr<cartilage::Connection> client, cartilage::Message& msg) {
   switch (msg.header.message_type) {
-    case MessageType::kPing:
+    case MessageType::kPing: {
       CR_LOG_INFO("#%u: ping\n", client->GetID());
       client->Send(msg);
       break;
+    }
+
+    case MessageType::kClientUpdate: {
+      auto& data = *client_data_[client];
+      msg >> data.player_z_;
+      msg >> data.player_y_;
+      msg >> data.player_x_;
+      break;
+    }
       
-    case MessageType::kShutdown:
+    case MessageType::kShutdown: {
       flag_shutdown_ = true;
       break;
+    }
   }
 }
 
@@ -68,13 +78,10 @@ void BlocksServer::LoadClientChunks() {
   }
 }
 
-void StartServer() {
-  BlocksServer server;
-  server.Start();
+void StartServer(std::shared_ptr<BlocksServer> server) {
+  while (!server->FlagShutdown()) {
+    server->ProcessMessages();
 
-  while (!server.FlagShutdown()) {
-    server.ProcessMessages();
-
-    server.LoadClientChunks();
+    server->LoadClientChunks();
   }
 }

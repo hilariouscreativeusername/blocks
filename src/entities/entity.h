@@ -7,6 +7,9 @@ class Entity {
 public:
   virtual ~Entity() = default;
 
+public:
+  inline const glm::vec3& Position() const { return position_; };
+
 protected:
   glm::vec3 position_ = glm::vec3(0, 0, 0);
   glm::vec3 rotation_ = glm::vec3(0, 0, 0);

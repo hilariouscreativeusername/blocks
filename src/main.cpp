@@ -47,7 +47,9 @@ int main(int argc, char** argv) {
   
   std::thread* server_thread;
   if (kIsHost) {
-    server_thread = new std::thread(StartServer);
+    auto server = std::make_shared<BlocksServer>();
+    server->Start();
+    server_thread = new std::thread(StartServer, server);
   }
 
   BlocksClient client(kIsHost ? "127.0.0.1" : argv[1]);
@@ -55,26 +57,27 @@ int main(int argc, char** argv) {
 
   auto last_frame = std::chrono::steady_clock::now();
   while (window.IsOpen()) {
+    // Frame timing
     auto now = std::chrono::steady_clock::now();
     float frame_delta = std::chrono::duration_cast<std::chrono::nanoseconds>(now - last_frame).count() * 0.000000001f;
     last_frame = now;
 
+    // Game logic
     client.CheckMessages(world);
-
     window.PollEvents();
     camera.FreeMove(frame_delta);
+    client.SendUpdate(camera.Position());
 
+    // Graphics stuff
     window.Clear();
-
     chunk_shader.Bind();
     world.RenderChunks();
-
     window.SwapBuffers();
   }
   
-  client.SendShutdownCommand();
-
+  // Shutdown server
   if (kIsHost) {
+    client.SendShutdownCommand();
     server_thread->join();
     delete server_thread;
   }

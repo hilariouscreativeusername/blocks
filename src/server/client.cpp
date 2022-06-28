@@ -28,6 +28,13 @@ void BlocksClient::SendShutdownCommand() {
   Send(msg);
 }
 
+void BlocksClient::SendUpdate(const glm::vec3& pos) {
+  cartilage::Message msg;
+  msg.header.message_type = MessageType::kClientUpdate;
+  msg << pos.x << pos.y << pos.z;
+  Send(msg);
+}
+
 void BlocksClient::CheckMessages(World& world) {
   while (!IncomingMessages().empty()) {
     cartilage::Message msg = IncomingMessages().pop_front().msg;
@@ -56,6 +63,5 @@ void BlocksClient::CheckMessages(World& world) {
         break;
       }
     }
-    
   }
 }

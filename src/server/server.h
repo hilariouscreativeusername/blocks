@@ -29,4 +29,4 @@ private:
   std::unordered_map<std::shared_ptr<cartilage::Connection>, std::unique_ptr<ClientData>> client_data_;
 };
 
-void StartServer();
+void StartServer(std::shared_ptr<BlocksServer> server);

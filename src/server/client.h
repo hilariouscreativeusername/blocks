@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cartilage.hpp>
+#include <glm/vec3.hpp>
 
 class World;
 
@@ -11,5 +12,6 @@ public:
   void PingServer();
   void SendShutdownCommand();
   
+  void SendUpdate(const glm::vec3& pos);
   void CheckMessages(World& world);
 };
