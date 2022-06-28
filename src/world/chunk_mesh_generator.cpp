@@ -13,7 +13,7 @@ VertexArray* GenerateChunkMesh(Block* blocks, int chunkx, int chunky, int chunkz
 
   // All sizes in floats
   constexpr size_t kVertexSize         = 7;
-  constexpr size_t kUniqueQuadVertices = 4;
+  constexpr size_t kUniqueQuadVertices = 4; 
   constexpr size_t kQuadSizeVertices   = kUniqueQuadVertices * kVertexSize;
   constexpr size_t kMaxBlockVertices   = kQuadSizeVertices * 6;
   constexpr size_t kChunkSize          = kChunkWidth * kChunkHeight * kChunkDepth;
@@ -124,6 +124,9 @@ VertexArray* GenerateChunkMesh(Block* blocks, int chunkx, int chunky, int chunkz
         else {
           return BlockProps::IsOccluding(blocks[x + (y - 1) * kChunkHeight + z * kChunkHeight * kChunkDepth]);
         }
+
+      default:
+        return false;
     }
   };
 

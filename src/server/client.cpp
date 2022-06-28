@@ -36,12 +36,12 @@ void BlocksClient::SendUpdate(const glm::vec3& pos) {
 }
 
 void BlocksClient::CheckMessages(World& world) {
-  while (!IncomingMessages().empty()) {
+  while (!IncomingMessages().empty()) { 
     cartilage::Message msg = IncomingMessages().pop_front().msg;
     
     switch (msg.header.message_type) {
       case MessageType::kPing: {
-        auto now = std::chrono::high_resolution_clock::now();
+        std::chrono::steady_clock::time_point now = std::chrono::high_resolution_clock::now();
         std::chrono::steady_clock::time_point sent_time;
         msg >> sent_time;
 
