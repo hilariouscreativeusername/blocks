@@ -16,7 +16,7 @@ void BlocksClient::PingServer() {
   cartilage::Message msg;
   msg.header.message_type = MessageType::kPing;
 
-  auto now = std::chrono::high_resolution_clock::now();
+  auto now = std::chrono::steady_clock::now();
   msg << now;
 
   Send(msg);
@@ -41,7 +41,7 @@ void BlocksClient::CheckMessages(World& world) {
     
     switch (msg.header.message_type) {
       case MessageType::kPing: {
-        std::chrono::steady_clock::time_point now = std::chrono::high_resolution_clock::now();
+        std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
         std::chrono::steady_clock::time_point sent_time;
         msg >> sent_time;
 
