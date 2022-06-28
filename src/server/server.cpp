@@ -5,7 +5,9 @@
 #include "world/block.h"
 #include "world/chunk.h"
 
-BlocksServer::BlocksServer() : cartilage::Server(65432) { }
+BlocksServer::BlocksServer() : cartilage::Server(65432) {
+  ChunkGenerator::SRand();
+}
 
 bool BlocksServer::OnClientConnect(std::shared_ptr<cartilage::Connection> client) {
   client_data_.emplace(client, std::make_unique<ClientData>());
@@ -62,7 +64,7 @@ void BlocksServer::LoadClientChunks() {
       // TODO: Check if chunk previously generated and load it from disk if so
 
       // If chunk not previously loaded, generate it
-      blocks = GenerateChunk(load_x, load_y, load_z);
+      blocks = ChunkGenerator::GenerateChunk(load_x, load_y, load_z);
 
       // Add block data to the message
       for (size_t i = 0; i < kChunkSize; ++i) {
