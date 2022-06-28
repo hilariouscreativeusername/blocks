@@ -5,9 +5,7 @@
 #include "world/block.h"
 #include "world/chunk.h"
 
-BlocksServer::BlocksServer() : cartilage::Server(65432) {
-  ChunkGenerator::SRand();
-}
+BlocksServer::BlocksServer() : cartilage::Server(65432) { }
 
 bool BlocksServer::OnClientConnect(std::shared_ptr<cartilage::Connection> client) {
   client_data_.emplace(client, std::make_unique<ClientData>());

@@ -2,16 +2,13 @@
 
 #include "chunk.h"
 
-#include <ctime>
 #include <random>
 
 namespace ChunkGenerator {
 
-void SRand() {
-  srand(time(0));
-}
-
 Block* GenerateChunk(int chunkx, int chunky, int chunkz) {
+  srand(7919 + chunkx * 5903 + chunky * 4027 + chunkz * 3119);
+
   Block* blocks = new Block[kChunkWidth * kChunkHeight * kChunkDepth];
 
   for (size_t x = 0; x < kChunkWidth; ++x) {
